@@ -6,7 +6,6 @@ var PartidoSchema = new mongoose.Schema({
     nome_partido: { type: String, required: true },
     sigla_partido: { type: String, required: true },
     qtd_politicos: { type: Number }
-
 });
 
 var Partido = mongoose.model('partidos', PartidoSchema);
