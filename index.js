@@ -10,11 +10,10 @@ var server = restify.createServer({
     version: '1.0.0'
 });
 
-server.use(restify.authorizationParser());
-server.use(restify.acceptParser(server.acceptable));
-server.use(restify.queryParser());
-server.use(restify.bodyParser());
-server.use(restify.fullResponse());
+server.use(restify.plugins.acceptParser(server.acceptable));
+server.use(restify.plugins.queryParser());
+server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.fullResponse());
 
 
 server.get('/', function (req, res) {
@@ -24,3 +23,10 @@ server.get('/', function (req, res) {
 server.listen(process.env.PORT || 8080, function () {
     console.log('%s listening at %s', server.name, server.url);
 });
+
+var pessoa = require('./models/pessoa')
+server.get('/pessoa', pessoa.query());
+server.get('/ pessoa/:id',    pessoa.detail());
+server.post('/ pessoa',    pessoa.insert());
+server.patch('/ pessoa/:id',    pessoa.update());
+server.del('/ pessoa/:id',    pessoa.remove());
