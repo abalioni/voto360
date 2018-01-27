@@ -26,7 +26,7 @@ server.listen(process.env.PORT || 8080, function () {
 
 var pessoa = require('./models/pessoa')
 server.get('/pessoa', pessoa.query());
-server.get('/ pessoa/:id',    pessoa.detail());
-server.post('/ pessoa',    pessoa.insert());
-server.patch('/ pessoa/:id',    pessoa.update());
-server.del('/ pessoa/:id',    pessoa.remove());
+server.get('/ pessoa/:id', pessoa.detail());
+server.post('/ pessoa', pessoa.insert());
+server.patch('/ pessoa/:id', pessoa.update());
+server.del('/ pessoa/:id', pessoa.remove());

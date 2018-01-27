@@ -12,6 +12,6 @@ var DadosPoliticoSchema = new mongoose.Schema({
 
 });
 
-var DadosPolitico = mongoose.model('patrimonios', DadosPoliticoSchema);
+var DadosPolitico = mongoose.model('dadospoliticos', DadosPoliticoSchema);
 // Now create a restify-mongoose resource from 'Order' mongoose model
 module.exports = restifyMongoose(DadosPolitico);
