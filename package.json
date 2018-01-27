@@ -1,0 +1,22 @@
+{
+  "name": "voto360",
+  "version": "1.0.0",
+  "description": "Voto360 server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abalioni/voto360.git"
+  },
+  "keywords": [
+    "TCC"
+  ],
+  "author": "abalioni",
+  "license": "SEE LICENSE IN LICENSEN.MD",
+  "bugs": {
+    "url": "https://github.com/abalioni/voto360/issues"
+  },
+  "homepage": "https://github.com/abalioni/voto360#readme"
+}
