@@ -11,4 +11,7 @@ var PatrimonioSchema = new mongoose.Schema({
 
 var Patrimonio = mongoose.model('patrimonios', PatrimonioSchema);
 // Now create a restify-mongoose resource from 'Order' mongoose model
-module.exports = restifyMongoose(Patrimonio);
+module.exports = {
+    resource: restifyMongoose(Patrimonio),
+    model: Patrimonio
+}

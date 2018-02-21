@@ -9,4 +9,7 @@ var EleitorSchema = new mongoose.Schema({
 
 var Eleitor = mongoose.model('eleitores', EleitorSchema);
 // Now create a restify-mongoose resource from 'Eleitor' mongoose model
-module.exports = restifyMongoose(Eleitor);
+module.exports = {
+    resource: restifyMongoose(Eleitor),
+    model: Eleitor
+}

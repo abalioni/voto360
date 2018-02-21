@@ -10,4 +10,7 @@ var PartidoSchema = new mongoose.Schema({
 
 var Partido = mongoose.model('partidos', PartidoSchema);
 // Now create a restify-mongoose resource from 'Order' mongoose model
-module.exports = restifyMongoose(Partido);
+module.exports = {
+    resource: restifyMongoose(Partido),
+    model: Partido
+}

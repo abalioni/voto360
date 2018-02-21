@@ -17,4 +17,7 @@ var PoliticoSchema = new mongoose.Schema({
 
 var Politico = mongoose.model('politicos', PoliticoSchema);
 // Now create a restify-mongoose resource from 'Order' mongoose model
-module.exports = restifyMongoose(Politico);
+module.exports = {
+    resource: restifyMongoose(Politico),
+    model: Politico
+}

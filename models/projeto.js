@@ -24,4 +24,7 @@ var ProjetoSchema = new mongoose.Schema({
 
 var Projeto = mongoose.model('projetos', ProjetoSchema);
 // Now create a restify-mongoose resource from 'Order' mongoose model
-module.exports = restifyMongoose(Projeto);
+module.exports = {
+    resource: restifyMongoose(Projeto),
+    model: Projeto
+}

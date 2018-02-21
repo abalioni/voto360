@@ -9,4 +9,7 @@ var CandidatoSchema = new mongoose.Schema({
 
 var Candidato = mongoose.model('candidatos', CandidatoSchema);
 // Now create a restify-mongoose resource from 'Candidato' mongoose model
-module.exports = restifyMongoose(Candidato);
+module.exports = {
+    resource: restifyMongoose(Candidato),
+    model: Candidato
+}
