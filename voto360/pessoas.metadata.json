@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"voto360.pessoas"},{"v":2,"unique":true,"key":{"cpf":1},"name":"cpf_1","ns":"voto360.pessoas","background":true},{"v":2,"unique":true,"key":{"email":1},"name":"email_1","ns":"voto360.pessoas","background":true}],"uuid":"547df563edb646be951da6ac7dab24cb"}
