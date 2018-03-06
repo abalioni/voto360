@@ -10,6 +10,7 @@ var PessoaSchema = new mongoose.Schema({
     senha: {type: String, required: true},
     email: { type: String, required: true, unique: true, index: true },
     cargo: { type: String, required: true },
+    token: { type: String },
     ind_ativo: { type: Number },
     data_nascimento: { type: Date },
     foto: { data: Buffer, contentType: String }

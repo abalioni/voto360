@@ -57,6 +57,21 @@ server.put('/change-role', function(req, res, next){
     }
 })
 
+server.put('/change-token', function(req, res, next){
+    const email = req.body.email;
+    const token = req.body.token;
+    console.log(email, token);
+    var pessoaModel = require('./models/pessoa').model
+    var conditions = { email: email }, update = { token: token }, options = { multi: false };
+
+    pessoaModel.update(conditions, update, options, callback);
+
+    function callback (err, numAffected) {
+      // numAffected is the number of updated documents
+      console.log(numAffected);
+    }
+})
+
 server.put('/change-password', function(req, res, next){
     const email = req.body.email;
     const senha = req.body.senha;
@@ -70,6 +85,30 @@ server.put('/change-password', function(req, res, next){
       // numAffected is the number of updated documents
       console.log(numAffected);
     }
+})
+
+server.post('/singlePerson', function(req, res, next){
+    const email = req.body.email;
+    console.log('single person');
+    var pessoaModel = require('./models/pessoa').model
+    pessoaModel.find({email}, function (err, docs) {
+      // docs is an array
+      console.log('aaa');
+      console.log(docs[0]);
+      docs[0] ? res.send(200, docs[0]) : res.send(401)
+    });
+    return next();
+})
+
+server.post('/sendMail', function(req, res, next){
+    const email = req.body.email;
+    const url = req.body.url;
+    const subject = req.body.subject;
+    const from = req.body.from;
+    console.log('send email');
+    var SendGrid = require('./helpers/sendgrid')
+    SendGrid.sendEmail(email, from, subject, url);
+
 })
 
 server.listen(process.env.PORT || 8080, function () {
