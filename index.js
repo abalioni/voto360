@@ -1,4 +1,5 @@
 var restify = require('restify');
+var axios = require('axios');
 
 
 var mongoose = require('mongoose').set('debug', true);
@@ -67,8 +68,15 @@ server.put('/change-token', function(req, res, next){
     pessoaModel.update(conditions, update, options, callback);
 
     function callback (err, numAffected) {
-      // numAffected is the number of updated documents
-      console.log(numAffected);
+      var request = {
+        email: req.body.email,
+        subject: 'reset de senha',
+        url: 'http://localhost:8080/reset_'+ token,
+      };
+      console.log('envia email call');
+      axios.post('http://localhost:8080/sendMail', request).then((response) => console.log(response)).catch(function(error) {
+        alert(error);
+      });
     }
 })
 
@@ -87,7 +95,7 @@ server.put('/change-password', function(req, res, next){
     }
 })
 
-server.post('/singlePerson', function(req, res, next){
+server.get('/singlePerson', function(req, res, next){
     const email = req.body.email;
     console.log('single person');
     var pessoaModel = require('./models/pessoa').model
@@ -101,13 +109,27 @@ server.post('/singlePerson', function(req, res, next){
 })
 
 server.post('/sendMail', function(req, res, next){
+  console.log('enviar email');
+    const sgMail = require('@sendgrid/mail');
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
     const email = req.body.email;
     const url = req.body.url;
     const subject = req.body.subject;
-    const from = req.body.from;
+
+    const msg = {
+      to: email,
+      from: 'noreply@voto360.com',
+      subject: subject,
+      text: url,
+      html: '<strong></strong>',
+    }
+    console.log(msg);
+
     console.log('send email');
-    var SendGrid = require('./helpers/sendgrid')
-    SendGrid.sendEmail(email, from, subject, url);
+    sgMail.send(msg).then(response =>{
+      console.log('email enviado');
+    })
 
 })
 
