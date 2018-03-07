@@ -43,6 +43,25 @@ server.post('/login', function(req, res, next){
     return next();
 })
 
+server.get('/reset/:token', function(req, res, next) {
+  const token = req.param.token
+  console.log(req.param("token"));
+  console.log(req.param.token);
+  console.log(token);
+  axios.get('http://localhost:8080/pessoa?q=', {
+    token: token
+  })
+  .then(function(res) {
+    console.log(res);
+    return res;
+  })
+  .catch(function (error) {
+      console.log(error);
+      return error;
+  })
+
+})
+
 server.put('/change-role', function(req, res, next){
     const email = req.body.email;
     const cargo = req.body.cargo;
@@ -71,9 +90,9 @@ server.put('/change-token', function(req, res, next){
       var request = {
         email: req.body.email,
         subject: 'reset de senha',
-        url: 'http://localhost:8080/reset_'+ token,
+        url: 'http://localhost:3000/reset/'+ token,
       };
-      console.log('envia email call');
+
       axios.post('http://localhost:8080/sendMail', request).then((response) => console.log(response)).catch(function(error) {
         alert(error);
       });
@@ -97,19 +116,17 @@ server.put('/change-password', function(req, res, next){
 
 server.get('/singlePerson', function(req, res, next){
     const email = req.body.email;
-    console.log('single person');
+
     var pessoaModel = require('./models/pessoa').model
     pessoaModel.find({email}, function (err, docs) {
       // docs is an array
-      console.log('aaa');
-      console.log(docs[0]);
       docs[0] ? res.send(200, docs[0]) : res.send(401)
     });
     return next();
 })
 
 server.post('/sendMail', function(req, res, next){
-  console.log('enviar email');
+
     const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -122,16 +139,16 @@ server.post('/sendMail', function(req, res, next){
       from: 'noreply@voto360.com',
       subject: subject,
       text: url,
-      html: '<strong></strong>',
+      html: '<strong>' + url + '</strong>',
     }
-    console.log(msg);
 
-    console.log('send email');
     sgMail.send(msg).then(response =>{
-      console.log('email enviado');
+      console.log('tratar email enviado');
     })
 
 })
+
+
 
 server.listen(process.env.PORT || 8080, function () {
     console.log('%s listening at %s', server.name, server.url);
