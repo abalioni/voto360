@@ -118,6 +118,29 @@ server.put('/change-role', function(req, res, next){
     return next(); 
 })
 
+server.put('/change-info', function(req, res, next){
+  const email = req.body.email;
+  const newemail = req.body.newemail;
+  const cpf = req.body.cpf;
+  const senha = req.body.senha;
+  const nome = req.body.nome;
+  console.log(email, newemail, cpf, senha, nome);
+  var pessoaModel = require('./models/pessoa').model
+  var conditions = { email: email }, update = { email: newemail, cpf: cpf, senha: senha, nome: nome }, options = { multi: false };
+
+  pessoaModel.update(conditions, update, options, callback);
+
+  function callback (err, numAffected) {
+    if(err){
+      return res.send(400, err)
+    }
+    // numAffected is the number of updated documents
+    console.log(numAffected);
+    res.send(200)
+  }
+  return next(); 
+})
+
 server.put('/change-token', function(req, res, next){
     const email = req.body.email;
     const token = req.body.token;
@@ -225,6 +248,6 @@ server.post('/sendMail', function(req, res, next){
 
 
 
-server.listen(process.env.PORT || 8080, function () {
+server.listen(process.env.PORT || 8081, function () {
     console.log('%s listening at %s', server.name, server.url);
 });
