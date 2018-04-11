@@ -4,7 +4,7 @@ var restifyMongoose = require('restify-mongoose');
 // Create a simple mongoose model 'Order'
 var PoliticoSchema = new mongoose.Schema({
     pessoa: { type: mongoose.Schema.Types.ObjectId, ref: 'pessoas' },
-    partido: { type: mongoose.Schema.Types.ObjectId, ref: 'partido' },
+    partido: { type: String, required: true },
     despesa_campanha: { type: Number, required: true },
     escolaridade: { type: String, required: true },
     qtd_votos: { type: Number, required: true },
