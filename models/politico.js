@@ -19,7 +19,7 @@ var PoliticoSchema = new mongoose.Schema({
     qtd_intencao_votos: { type: Number },
     biografia: { type: String },
     cargo_politico: { type: String },
-    perfil_aprovado: { type: Boolean, required: true }
+    perfil_aprovado: { type: String, required: true }
 });
 
 var Politico = mongoose.model('politicos', PoliticoSchema);
