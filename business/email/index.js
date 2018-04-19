@@ -3,8 +3,6 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
 exports.resetPassword = function(email, token, subject = 'VOTO360 - Reset password'){
-  console.log(email)
-  console.log(token)
 
   const msg = {
     to: email,

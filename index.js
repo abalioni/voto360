@@ -38,6 +38,7 @@ require('./models/partido').resource.serve('/partido', server);
 require('./models/dados_politico').resource.serve('/dados_politico', server);
 require('./models/patrimonio').resource.serve('/patrimonio', server);
 require('./models/projeto').resource.serve('/projeto', server);
+require('./models/politico').resource.serve('/politico', server);
 
 server.post('/login', function (req, res, next) {
   const email = req.body.email;
