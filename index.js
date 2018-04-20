@@ -1,14 +1,15 @@
+require("dotenv").load();
 
 var restify = require('restify');
 var axios = require('axios');
-
-
 var mongoose = require('mongoose').set('debug', true);
-
 var restifyMongoose = require('restify-mongoose');
 var jwt = require('jsonwebtoken')
+var moment = require('moment');
 
 const secret = 'shhhhhh';
+
+const validate = require('./utils/validation')
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/voto360');
@@ -28,7 +29,7 @@ server.use(restify.plugins.bodyParser());
 server.use(restify.plugins.fullResponse());
 
 server.get('/', function (req, res) {
-  res.send("Voto360")
+  res.send("Voto360");
 });
 
 require('./models/pessoa').resource.serve('/pessoa', server);
@@ -38,7 +39,36 @@ require('./models/partido').resource.serve('/partido', server);
 require('./models/dados_politico').resource.serve('/dados_politico', server);
 require('./models/patrimonio').resource.serve('/patrimonio', server);
 require('./models/projeto').resource.serve('/projeto', server);
-require('./models/politico').resource.serve('/politico', server);
+
+server.put('/politico', function (req, res, next) {
+  const route = require('./routes/voto360-politico-put/index');
+  const context = {
+    "validate": validate,
+    "moment": moment,
+    "politicoModel": require('./models/politico').model,
+    "pessoaModel": require('./models/pessoa').model
+  };
+  
+  var response;
+
+  // Validate information of the request
+  var validation = [];
+  validation = route.validator(req, context);
+
+  if (validation.length === 0) {
+    route.controller(req.body, response, context, function(err, data) {
+      if (err) {
+        response = err;
+      } else {
+        response = data;
+      }
+    });
+  } else {
+    response = validation;
+  }
+
+  res.send(response);
+});
 
 server.post('/login', function (req, res, next) {
   const email = req.body.email;
