@@ -63,12 +63,13 @@ server.put('/politicoupdate', function (req, res, next) {
       } else {
         response = data;
       }
+
+      res.send(response);
     });
   } else {
     response = validation;
+    res.send(response);
   }
-
-  res.send(response);
 });
 
 server.post('/login', function (req, res, next) {

@@ -6,9 +6,7 @@ module.exports.executa = function (query, context, done) {
   
   var queryPessoa = {
     "cpf": query.cpf,
-    "data_nascimento": moment(query.data_nascimento, "DD/MM/YYYY").toDate(),
-    "email_eleitoral": query.email_eleitoral,
-    "nome_eleitoral": query.nome_eleitoral
+    "data_nascimento": moment(query.data_nascimento, "DD/MM/YYYY").toDate()
   };
 
   atualizaPessoa.executa(queryPessoa, context, function (err, data) {
@@ -17,8 +15,14 @@ module.exports.executa = function (query, context, done) {
     } else {
       var queryPolitico = {
         "cpf": query.cpf,
+        "nome_eleitoral": query.nome_eleitoral,
+        "email_eleitoral": query.email_eleitoral,
+        "data_nascimento": moment(query.data_nascimento, "DD/MM/YYYY").toDate(),
         "partido": query.partido,
-        "biografia": query.biografia
+        "uf": query.uf,
+        "biografia": query.biografia,
+        "escolaridade": query.escolaridade,
+        "perfil_aprovado": query.perfil_aprovado
       };
 
       atualizaPolitico.executa(queryPolitico, context, function(err, data) {

@@ -12,7 +12,21 @@ module.exports.controller = function(req, res, context, callback) {
     if(err) {
       callback(err);
     } else {
-      callback(null, data);
+      callback(null, formatarResposta(data));
     }
   });
 };
+
+function formatarResposta(data) {
+  return {
+    "cnpj": data.cnpj,
+    "nome_eleitoral": data.nome_eleitoral,
+    "email_eleitoral": data.email_eleitoral,
+    "partido": data.partido,
+    "data_nascimento": data.data_nascimento,
+    "estado": data.estado,
+    "escolaridade": data.escolaridade,
+    "biografia": data.biografia,
+    "perfil_aprovado": data.perfil_aprovado
+  }
+}

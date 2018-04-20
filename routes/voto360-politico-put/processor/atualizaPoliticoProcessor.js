@@ -7,18 +7,24 @@ module.exports.executa = function (query, context, callback) {
       callback(err);
     } else {
       if (pessoa) {
-        model.pessoa = pessoa;
+        model.pessoa = pessoa._id;
+
+        model.nome_eleitoral = query.nome_eleitoral;
+        model.email_eleitoral = query.email_eleitoral;
+        model.data_nascimento = query.data_nascimento;
         model.partido = query.partido;
-        model.escolaridade = "";
+        model.estado = query.uf;
+        model.escolaridade = query.escolaridade;
         model.qtd_votos = 0;
         model.numero_candidato = 0;
         model.biografia = query.biografia;
-      
+        model.perfil_aprovado = query.perfil_aprovado;
+
         model.save(err => {
           if (err) {
             callback(err);
           } else {
-            callback(null, model)
+            callback(null, model);
           }
         });
       }
