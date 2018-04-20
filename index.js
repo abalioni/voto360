@@ -41,6 +41,27 @@ require('./models/patrimonio').resource.serve('/patrimonio', server);
 require('./models/projeto').resource.serve('/projeto', server);
 require('./models/politico').resource.serve('/politico', server);
 
+server.put('/politico/:id_politico/ativar', function (req, res, next) {
+  let model = require('./models/politico').model;
+
+  model.updateOne({ _id: req.param("id_politico") },
+    { perfil_aprovado: 'approved' })
+});
+
+server.put('/politico/:id_politico/desativar', function (req, res, next) {
+  let model = require('./models/politico').model;
+
+  model.updateOne({ _id: req.param("id_politico") },
+    { perfil_aprovado: 'deactivated' })
+});
+
+server.put('/politico/:id_politico/rejeitar', function (req, res, next) {
+  let model = require('./models/politico').model;
+
+  model.updateOne({ _id: req.param("id_politico") },
+    { perfil_aprovado: 'rejected' })
+});
+
 server.put('/politicoupdate', function (req, res, next) {
   const route = require('./routes/voto360-politico-put/index');
   const context = {
@@ -49,7 +70,7 @@ server.put('/politicoupdate', function (req, res, next) {
     "politicoModel": require('./models/politico').model,
     "pessoaModel": require('./models/pessoa').model
   };
-  
+
   var response;
 
   // Validate information of the request
@@ -57,7 +78,7 @@ server.put('/politicoupdate', function (req, res, next) {
   validation = route.validator(req, context);
 
   if (validation.length === 0) {
-    route.controller(req.body, response, context, function(err, data) {
+    route.controller(req.body, response, context, function (err, data) {
       if (err) {
         response = err;
       } else {
