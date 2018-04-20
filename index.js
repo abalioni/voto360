@@ -39,8 +39,9 @@ require('./models/partido').resource.serve('/partido', server);
 require('./models/dados_politico').resource.serve('/dados_politico', server);
 require('./models/patrimonio').resource.serve('/patrimonio', server);
 require('./models/projeto').resource.serve('/projeto', server);
+require('./models/politico').resource.serve('/politico', server);
 
-server.put('/politico', function (req, res, next) {
+server.put('/politicoupdate', function (req, res, next) {
   const route = require('./routes/voto360-politico-put/index');
   const context = {
     "validate": validate,
@@ -232,7 +233,7 @@ server.put('/change-token', function (req, res, next) {
       text: 'Essa é sua nova senha: ' + token,
     };
 
-    axios.post('http://localhost:8080/sendMail', request).then((response) => console.log(response)).catch(function (error) {
+    axios.post('http://localhost:8081/sendMail', request).then((response) => console.log(response)).catch(function (error) {
       alert(error);
     });
   }
@@ -321,6 +322,30 @@ server.post('/sendMail', function (req, res, next) {
 
 })
 
+server.post('/sendCommonEmail', function (req, res, next) {
+
+  const sgMail = require('@sendgrid/mail');
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+  const email = req.body.email;
+  const url = req.body.url;
+  const subject = req.body.subject;
+  const html = req.body.html;
+
+  const msg = {
+    to: email,
+    from: 'noreply@voto360.com',
+    subject: subject,
+    text: text,
+    html: html,
+  }
+
+  sgMail.send(msg).then(response => {
+    console.log('Email enviado');
+    window.location.href = "http://localhost:3000/login";
+  })
+
+})
 
 
 server.listen(process.env.PORT || 8081, function () {
