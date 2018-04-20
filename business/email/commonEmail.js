@@ -10,7 +10,7 @@ exports.resetPassword = function(email, subject, html){
     subject: subject,
     html: html,
   }
-
+  console.log(msg)
 
   sgMail.send(msg)
     .then(response =>{

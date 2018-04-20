@@ -43,23 +43,42 @@ require('./models/politico').resource.serve('/politico', server);
 
 server.put('/politico/:id_politico/ativar', function (req, res, next) {
   let model = require('./models/politico').model;
+  console.log(req.params.id_politico)
 
-  model.updateOne({ _id: req.param("id_politico") },
-    { perfil_aprovado: 'approved' })
+  model.update({ _id: req.params.id_politico },
+    { perfil_aprovado: 'approved' }, { multi: false}, function(err, numAffected) {
+      if(err){
+        res.send(err)
+      } else {
+        res.send(200)
+      }
+    })
 });
 
 server.put('/politico/:id_politico/desativar', function (req, res, next) {
   let model = require('./models/politico').model;
 
-  model.updateOne({ _id: req.param("id_politico") },
-    { perfil_aprovado: 'deactivated' })
+  model.update({ _id: req.params.id_politico },
+    { perfil_aprovado: 'deactivated' }, { multi: false}, function(err, numAffected) {
+      if(err){
+        res.send(err)
+      } else {
+        res.send(200)
+      }
+    })
 });
 
 server.put('/politico/:id_politico/rejeitar', function (req, res, next) {
   let model = require('./models/politico').model;
 
-  model.updateOne({ _id: req.param("id_politico") },
-    { perfil_aprovado: 'rejected' })
+  model.update({ _id: req.params.id_politico },
+    { perfil_aprovado: 'rejected' }, { multi: false}, function(err, numAffected) {
+      if(err){
+        res.send(err)
+      } else {
+        res.send(200)
+      }
+    })
 });
 
 server.put('/politicoupdate', function (req, res, next) {
@@ -348,8 +367,9 @@ server.post('/sendCommonEmail', function (req, res, next) {
 
   const sgMail = require('@sendgrid/mail');
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-  const email = req.body.email;
+  console.log(req)
+  // const email = req.body.email;
+  const email = 'balionisalexia@gmail.com';
   const url = req.body.url;
   const subject = req.body.subject;
   const html = req.body.html;
@@ -358,13 +378,14 @@ server.post('/sendCommonEmail', function (req, res, next) {
     to: email,
     from: 'noreply@voto360.com',
     subject: subject,
-    text: text,
     html: html,
   }
 
+  console.log("msg", msg)
+
   sgMail.send(msg).then(response => {
     console.log('Email enviado');
-    window.location.href = "http://localhost:3000/login";
+    // window.location.href = "http://localhost:3000/login";
   })
 
 })
