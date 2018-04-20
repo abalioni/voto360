@@ -27,6 +27,8 @@ module.exports.executa = function (query, context, callback) {
             callback(null, model);
           }
         });
+      } else {
+        callback({"erro": "Pessoa não encontrada."})
       }
     }
   });
