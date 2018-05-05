@@ -7,18 +7,22 @@ module.exports.executa = function (query, context, done) {
   }
   var condition = getFiltro(query);
 
-  console.log(condition);
-  model.find(condition, function(err, data) {
+  model.find(condition, function (err, data) {
     if (err) {
       done(err);
     } else {
-      done(null, "data");
+      done(null, data);
     }
   });
 }
 
 function getFiltro(query) {
   var filtro = {};
+
+  if (query.nome_eleitoral) {
+    var regexNome = new RegExp("^" + query.nome_eleitoral);
+    filtro.nome_eleitoral = regexNome;
+  }
 
   if (query.partido) {
     filtro.partido = query.partido;
@@ -38,10 +42,6 @@ function getFiltro(query) {
 
   if (query.estado) {
     filtro.estado = query.estado;
-  }
-
-  if (query.nome_eleitoral) {
-    filtro.nome_eleitoral = query.nome_eleitoral;
   }
 
   if (query.despesa_campanha) {

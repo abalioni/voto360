@@ -1,4 +1,4 @@
-require("dotenv").load(); 
+require("dotenv").load();
 
 var restify = require('restify');
 var axios = require('axios');
