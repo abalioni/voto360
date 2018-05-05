@@ -41,6 +41,23 @@ require('./models/dados_politico').resource.serve('/dados_politico', server);
 require('./models/patrimonio').resource.serve('/patrimonio', server);
 require('./models/projeto').resource.serve('/projeto', server);
 require('./models/politico').resource.serve('/politico', server);
+require('./models/pesquisa').resource.serve('/pesquisa', server);
+
+server.get('api/pesquisa', (req, res, done) => {
+  // TODO: Do you need any explanation? Srly?
+});
+
+server.post('api/pesquisa', (req, res, done) => {
+  // TODO: Do you need any explanation? Srly?
+});
+
+server.put('api/pesquisa/:id_pesquisa', (req, res, done) => {
+  // TODO: Do you need any explanation? Srly?
+});
+
+server.delete('api/pesquisa/:id_pesquisa', (req, res, done) => {
+  // TODO: Do you need any explanation? Srly?
+});
 
 server.put('api/pessoa/:id_pessoa/politico', (req, res, done) => {
   let model = require('./models/politico').model;
