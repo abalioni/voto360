@@ -1,4 +1,4 @@
-require("dotenv").load();
+require("dotenv").load(); 
 
 var restify = require('restify');
 var axios = require('axios');
@@ -41,13 +41,40 @@ require('./models/patrimonio').resource.serve('/patrimonio', server);
 require('./models/projeto').resource.serve('/projeto', server);
 require('./models/politico').resource.serve('/politico', server);
 
-server.put('/politico/:id_politico/ativar', function (req, res, next) {
+server.get('api/politico', function (req, res, done) {
+  const route = require('./routes/voto360-politico-get/index')
+  const context = {
+    "validate": validate,
+    "politicoModel": require('./models/politico').model,
+    "moment": moment
+  };
+
+  var response;
+
+  // Validate information of the request
+  var validation = [];
+  validation = route.validator(req.params, context);
+
+  if (validation.length === 0) {
+    route.controller(req.params, res, context, function (err, data) {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(data);
+      }
+    });
+  } else {
+    res.send(validation);
+  }
+});
+
+server.put('api/politico/:id_politico/ativar', function (req, res, next) {
   let model = require('./models/politico').model;
   console.log(req.params.id_politico)
 
   model.update({ _id: req.params.id_politico },
-    { perfil_aprovado: 'approved' }, { multi: false}, function(err, numAffected) {
-      if(err){
+    { perfil_aprovado: 'approved' }, { multi: false }, function (err, numAffected) {
+      if (err) {
         res.send(err)
       } else {
         res.send(200)
@@ -55,12 +82,12 @@ server.put('/politico/:id_politico/ativar', function (req, res, next) {
     })
 });
 
-server.put('/politico/:id_politico/desativar', function (req, res, next) {
+server.put('api/politico/:id_politico/desativar', function (req, res, next) {
   let model = require('./models/politico').model;
 
   model.update({ _id: req.params.id_politico },
-    { perfil_aprovado: 'deactivated' }, { multi: false}, function(err, numAffected) {
-      if(err){
+    { perfil_aprovado: 'deactivated' }, { multi: false }, function (err, numAffected) {
+      if (err) {
         res.send(err)
       } else {
         res.send(200)
@@ -68,12 +95,12 @@ server.put('/politico/:id_politico/desativar', function (req, res, next) {
     })
 });
 
-server.put('/politico/:id_politico/rejeitar', function (req, res, next) {
+server.put('api/politico/:id_politico/rejeitar', function (req, res, next) {
   let model = require('./models/politico').model;
 
   model.update({ _id: req.params.id_politico },
-    { perfil_aprovado: 'rejected' }, { multi: false}, function(err, numAffected) {
-      if(err){
+    { perfil_aprovado: 'rejected' }, { multi: false }, function (err, numAffected) {
+      if (err) {
         res.send(err)
       } else {
         res.send(200)
@@ -81,7 +108,7 @@ server.put('/politico/:id_politico/rejeitar', function (req, res, next) {
     })
 });
 
-server.put('/politicoupdate', function (req, res, next) {
+server.put('api/politico', function (req, res, next) {
   const route = require('./routes/voto360-politico-put/index');
   const context = {
     "validate": validate,
