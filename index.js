@@ -441,13 +441,13 @@ server.post('/sendCommonEmail', function (req, res, next) {
 function execute(route, req, res, context) {
   route.validator(req, context, (err) => {
     if (err.length) {
-      res.send(getError(err));
+      res.send(500, getError(err));
     } else {
       route.controller(req, context, (err, data) => {
         if (err) {
-          res.send(getError(err));
+          res.send(500, getError(err));
         } else {
-          res.send(data);
+          res.send(200, data);
         }
       });
     }
