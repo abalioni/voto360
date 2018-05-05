@@ -41,6 +41,20 @@ require('./models/patrimonio').resource.serve('/patrimonio', server);
 require('./models/projeto').resource.serve('/projeto', server);
 require('./models/politico').resource.serve('/politico', server);
 
+server.put('api/pessoa/:id_pessoa/politico', (req, res, done) => {
+  let model = require('./models/politico').model;
+  let condition = { pessoa: req.params.id_pessoa };
+  let infoUpdate = { biografia: req.body.biografia };
+
+  model.update(condition, infoUpdate, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(200);
+    }
+  })
+});
+
 server.get('api/pessoa/:id_pessoa/politico', function (req, res, done) {
   const route = require('./routes/voto360-politico-get/index');
   let model = require('./models/politico').model;
