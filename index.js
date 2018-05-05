@@ -41,6 +41,38 @@ require('./models/patrimonio').resource.serve('/patrimonio', server);
 require('./models/projeto').resource.serve('/projeto', server);
 require('./models/politico').resource.serve('/politico', server);
 
+server.get('api/pessoa/:id_pessoa/politico', function (req, res, done) {
+  const route = require('./routes/voto360-politico-get/index');
+  let model = require('./models/politico').model;
+  let condition = { pessoa: req.params.id_pessoa };
+
+  model.findOne(condition, (err, data) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send({
+        id_pessoa: req.params.id_pessoa,
+        biografia: data.biografia,
+        partido: data.partido,
+        cnpj: data.cnpj,
+        data_nascimento: data.data_nascimento,
+        email_eleitoral: data.email_eleitoral,
+        estado: data.estado,
+        nome_eleitoral: data.nome_eleitoral,
+        despesa_campanha: data.despesa_campanha,
+        escolaridade: data.escolaridade,
+        qtd_votos: data.qtd_votos,
+        data_eleito: data.data_eleito,
+        numero_candidato: data.numero_candidato,
+        qtd_intencao_votos: data.qtd_intencao_votos,
+        biografia: data.biografia,
+        cargo_politico: data.cargo_politico,
+        perfil_aprovado: data.perfil_aprovado
+      });
+    }
+  });
+});
+
 server.get('api/politico', function (req, res, done) {
   const route = require('./routes/voto360-politico-get/index')
   const context = {
@@ -70,7 +102,6 @@ server.get('api/politico', function (req, res, done) {
 
 server.put('api/politico/:id_politico/ativar', function (req, res, next) {
   let model = require('./models/politico').model;
-  console.log(req.params.id_politico)
 
   model.update({ _id: req.params.id_politico },
     { perfil_aprovado: 'approved' }, { multi: false }, function (err, numAffected) {
