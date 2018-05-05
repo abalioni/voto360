@@ -1,7 +1,6 @@
 const processor = require("./processors/processor")
 
 module.exports.validator = function(req, context, done) {
-  // TODO: Implementar validação dos campos
   var validation = [];
   done(validation);
 };

@@ -55,7 +55,7 @@ server.put('api/pesquisa/:id_pesquisa', (req, res, done) => {
   // TODO: Do you need any explanation? Srly?
 });
 
-server.delete('api/pesquisa/:id_pesquisa', (req, res, done) => {
+server.del('api/pesquisa/:id_pesquisa', (req, res, done) => {
   // TODO: Do you need any explanation? Srly?
 });
 
@@ -157,26 +157,7 @@ server.put('api/politico', function (req, res, next) {
     "pessoaModel": require('./models/pessoa').model
   };
 
-  var response;
-
-  // Validate information of the request
-  var validation = [];
-  validation = route.validator(req, context);
-
-  if (validation.length === 0) {
-    route.controller(req.body, response, context, function (err, data) {
-      if (err) {
-        response = err;
-      } else {
-        response = data;
-      }
-
-      res.send(response);
-    });
-  } else {
-    response = validation;
-    res.send(response);
-  }
+  execute(route, req.body, res, context);
 });
 
 server.post('/login', function (req, res, next) {
@@ -460,7 +441,7 @@ server.post('/sendCommonEmail', function (req, res, next) {
 function execute(route, req, res, context) {
   route.validator(req, context, (err) => {
     if (err.length) {
-      res.status(500).send(getError(err));
+      res.send(getError(err));
     } else {
       route.controller(req, context, (err, data) => {
         if (err) {

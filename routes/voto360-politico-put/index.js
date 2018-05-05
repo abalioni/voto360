@@ -1,15 +1,30 @@
 const processor = require("./processor/processor")
 
-module.exports.validator = function(req, context) {
-  // TODO: Implementar validação dos campos
-  var validation = [];
+module.exports.validator = function (req, context, done) {
+  let validation = [];
 
-  return validation;
+  // Valida se a pessoa já é um político
+  let pessoaModel = context.pessoaModel;
+  let conditionPessoa = { cpf: req.cpf };
+
+  pessoaModel.findOne(conditionPessoa, (err, data) => {
+    let politicoModel = context.politicoModel;
+    let conditionPolitico = { pessoa: data.id };
+
+    politicoModel.findOne(conditionPolitico, (err, data) => {
+      if (data) {
+        validation.push({
+          "error": "O usuário já possui um perfil político."
+        });
+        done(validation);
+      }
+    });
+  });
 };
 
-module.exports.controller = function(req, res, context, callback) {
-  processor.executa(req, context, function(err, data) {
-    if(err) {
+module.exports.controller = function (req, context, callback) {
+  processor.executa(req, context, function (err, data) {
+    if (err) {
       callback(err);
     } else {
       callback(null, formatarResposta(data));
