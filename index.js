@@ -95,16 +95,14 @@ server.get('api/politico', function (req, res, done) {
 });
 
 server.put('api/politico/:id_politico/ativar', function (req, res, next) {
-  let model = require('./models/politico').model;
+  const route = require('./routes/voto360-politico--id_politico--ativar-put/index');
+  const context = {
+    "politicoModel": require('./models/politico').model,
+    "pessoaModel": require('./models/pessoa').model,
+    "validate": validate
+  };
 
-  model.update({ _id: req.params.id_politico },
-    { perfil_aprovado: 'approved' }, { multi: false }, function (err, numAffected) {
-      if (err) {
-        res.send(err)
-      } else {
-        res.send(200)
-      }
-    })
+  execute(route, req.params, res, context);
 });
 
 server.put('api/politico/:id_politico/desativar', function (req, res, next) {
