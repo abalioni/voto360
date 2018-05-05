@@ -9,7 +9,8 @@ var moment = require('moment');
 
 const secret = 'shhhhhh';
 
-const validate = require('./utils/validation')
+const validate = require('./utils/validation');
+const constants = require('./utils/constants');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/voto360');
@@ -56,35 +57,14 @@ server.put('api/pessoa/:id_pessoa/politico', (req, res, done) => {
 });
 
 server.get('api/pessoa/:id_pessoa/politico', function (req, res, done) {
-  const route = require('./routes/voto360-politico-get/index');
-  let model = require('./models/politico').model;
-  let condition = { pessoa: req.params.id_pessoa };
+  const route = require('./routes/voto360-pessoa--id_pessoa--politico-get/index');
+  const context = {
+    "politicoModel": require('./models/politico').model,
+    "validate": validate,
+    "moment": moment
+  };
 
-  model.findOne(condition, (err, data) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send({
-        id_pessoa: req.params.id_pessoa,
-        biografia: data.biografia,
-        partido: data.partido,
-        cnpj: data.cnpj,
-        data_nascimento: data.data_nascimento,
-        email_eleitoral: data.email_eleitoral,
-        estado: data.estado,
-        nome_eleitoral: data.nome_eleitoral,
-        despesa_campanha: data.despesa_campanha,
-        escolaridade: data.escolaridade,
-        qtd_votos: data.qtd_votos,
-        data_eleito: data.data_eleito,
-        numero_candidato: data.numero_candidato,
-        qtd_intencao_votos: data.qtd_intencao_votos,
-        biografia: data.biografia,
-        cargo_politico: data.cargo_politico,
-        perfil_aprovado: data.perfil_aprovado
-      });
-    }
-  });
+  execute(route, req, res, context);
 });
 
 server.get('api/politico', function (req, res, done) {
@@ -462,6 +442,28 @@ server.post('/sendCommonEmail', function (req, res, next) {
 
 })
 
+function execute(route, req, res, context) {
+  route.validator(req, context, (err) => {
+    if (err.length) {
+      res.status(500).send(getError(err));
+    } else {
+      route.controller(req, context, (err, data) => {
+        if (err) {
+          res.send(getError(err));
+        } else {
+          res.send(data);
+        }
+      });
+    }
+  });
+}
+
+function getError(errorList, errorCode) {
+  return {
+    'error_code': errorCode ? errorCode : '',
+    'error': errorList
+  };
+}
 
 server.listen(process.env.PORT || 8081, function () {
   console.log('%s listening at %s', server.name, server.url);
