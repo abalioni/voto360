@@ -67,14 +67,24 @@ server.post('api/pesquisa', (req, res, done) => {
   const route = require('./routes/voto360-pesquisa-post/index')
   const context = {
     "validate": validate,
-    "pesquisaModel": require('./models/pesquisa').model,
+    "pesquisaModel": require('./models/pesquisa').model
   };
 
   execute(route, req, res, context);
 });
 
+server.post('api/pesquisa/:id_pesquisa/votar/:id_politico', (req, res, done) => {
+  const route = require('./routes/voto360-pesquisa--id_pesquisa--votar--id_politico--put/index');
+  const context = {
+    "validate": validate,
+    "pesquisaModel": require('./models/pesquisa').model
+  };
+
+  execute(route, req.params, res, context);
+});
+
 server.put('api/pesquisa/:id_pesquisa', (req, res, done) => {
-  const route = require('./routes/voto360-pesquisa-put/index')
+  const route = require('./routes/voto360-pesquisa-put/index');
   const context = {
     "validate": validate,
     "pesquisaModel": require('./models/pesquisa').model,

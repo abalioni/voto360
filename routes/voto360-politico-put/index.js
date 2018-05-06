@@ -5,20 +5,15 @@ module.exports.validator = function (req, context, done) {
 
   // Valida se a pessoa já é um político
   let pessoaModel = context.pessoaModel;
-  let conditionPessoa = { cpf: req.cpf };
+  let conditionPolitico = { 'pessoa.cpf': req.cpf };
 
-  pessoaModel.findOne(conditionPessoa, (err, data) => {
-    let politicoModel = context.politicoModel;
-    let conditionPolitico = { pessoa: data.id };
-
-    politicoModel.findOne(conditionPolitico, (err, data) => {
-      if (data) {
-        validation.push({
-          "error": "O usuário já possui um perfil político."
-        });
-        done(validation);
-      }
-    });
+  politicoModel.findOne(conditionPolitico, (err, data) => {
+    if (data) {
+      validation.push({
+        "error": "O usuário já possui um perfil político."
+      });
+      done(validation);
+    }
   });
 };
 

@@ -6,7 +6,7 @@ module.exports.executa = function (req, context, done) {
     if (err) {
       done(err);
     } else {
-      done(null, {
+      done(null, data ? data : {
         id_pessoa: req.id_pessoa,
         biografia: data.biografia,
         partido: data.partido,
