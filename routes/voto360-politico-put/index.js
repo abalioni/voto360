@@ -4,7 +4,7 @@ module.exports.validator = function (req, context, done) {
   let validation = [];
 
   // Valida se a pessoa já é um político
-  let pessoaModel = context.pessoaModel;
+  let politicoModel = context.politicoModel; 
   let conditionPolitico = { 'pessoa.cpf': req.cpf };
 
   politicoModel.findOne(conditionPolitico, (err, data) => {
@@ -15,6 +15,8 @@ module.exports.validator = function (req, context, done) {
       done(validation);
     }
   });
+
+  done(validation);
 };
 
 module.exports.controller = function (req, context, callback) {

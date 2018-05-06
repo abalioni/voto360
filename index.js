@@ -222,9 +222,7 @@ server.post('/login', function (req, res, next) {
 
 server.get('/reset/:token', function (req, res, next) {
   const token = req.param.token
-  console.log(req.param("token"));
-  console.log(req.param.token);
-  console.log(token);
+  
   axios.get('http://localhost:8080/pessoa?q=', {
     token: token
   })
@@ -453,6 +451,14 @@ server.post('/sendMail', function (req, res, next) {
     window.location.href = "http://localhost:3000/login";
   })
 
+})
+
+server.get('/apagartudo', function (req, res, next) {
+  var model = require('./models/pessoa').model;
+  model.remove({}, function() {
+    
+  });
+  next()
 })
 
 server.post('/sendCommonEmail', function (req, res, next) {

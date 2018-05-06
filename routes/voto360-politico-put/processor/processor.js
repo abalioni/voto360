@@ -6,8 +6,9 @@ module.exports.executa = function (query, context, done) {
   
   var queryPessoa = {
     "cpf": query.cpf,
-    "data_nascimento": moment(query.data_nascimento, "DD/MM/YYYY").toDate()
+    "data_nascimento": query.data_nascimento
   };
+  //moment(query.data_nascimento, "DD/MM/YYYY").toDate()
 
   atualizaPessoa.executa(queryPessoa, context, function (err, data) {
     if (err) {
@@ -17,9 +18,9 @@ module.exports.executa = function (query, context, done) {
         "cpf": query.cpf,
         "nome_eleitoral": query.nome_eleitoral,
         "email_eleitoral": query.email_eleitoral,
-        "data_nascimento": moment(query.data_nascimento, "DD/MM/YYYY").toDate(),
+        "data_nascimento": query.data_nascimento,
         "partido": query.partido,
-        "uf": query.uf,
+        "estado": query.estado,
         "biografia": query.biografia,
         "escolaridade": query.escolaridade,
         "perfil_aprovado": query.perfil_aprovado
