@@ -52,7 +52,13 @@ server.post('api/pesquisa', (req, res, done) => {
 });
 
 server.put('api/pesquisa/:id_pesquisa', (req, res, done) => {
-  // TODO: Do you need any explanation? Srly?
+  const route = require('./routes/voto360-pesquisa-put/index')
+  const context = {
+    "validate": validate,
+    "pesquisaModel": require('./models/pesquisa').model,
+  };
+
+  execute(route, req, res, context);
 });
 
 server.del('api/pesquisa/:id_pesquisa', (req, res, done) => {
