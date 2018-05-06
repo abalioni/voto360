@@ -23,11 +23,11 @@ var server = restify.createServer({
   version: '1.0.0'
 });
 
-server.use(restify.plugins.CORS({ origins: ['*'] }));
-server.use(restify.plugins.acceptParser(server.acceptable));
-server.use(restify.plugins.queryParser());
-server.use(restify.plugins.bodyParser());
-server.use(restify.plugins.fullResponse());
+server.use(restify.CORS({ origins: ['*'] }));
+server.use(restify.acceptParser(server.acceptable));
+server.use(restify.queryParser());
+server.use(restify.bodyParser({ mapParams: true }));
+server.use(restify.fullResponse());
 
 server.get('/', function (req, res) {
   res.send("Voto360");
