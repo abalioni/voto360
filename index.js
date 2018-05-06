@@ -44,7 +44,23 @@ require('./models/politico').resource.serve('/politico', server);
 require('./models/pesquisa').resource.serve('/pesquisa', server);
 
 server.get('api/pesquisa', (req, res, done) => {
-  // TODO: Do you need any explanation? Srly?
+  const route = require('./routes/voto360-pesquisa-get/index')
+  const context = {
+    "validate": validate,
+    "pesquisaModel": require('./models/pesquisa').model,
+  };
+
+  execute(route, req, res, context);
+});
+
+server.get('api/pesquisa/:id_pesquisa', (req, res, done) => {
+  const route = require('./routes/voto360-pesquisa-get/index')
+  const context = {
+    "validate": validate,
+    "pesquisaModel": require('./models/pesquisa').model,
+  };
+
+  execute(route, req, res, context);
 });
 
 server.post('api/pesquisa', (req, res, done) => {
