@@ -1,10 +1,10 @@
 const processor = require("./processor/processor")
 
-module.exports.validator = function(req, context) {
+module.exports.validator = function (req, context, done) {
   // TODO: Implementar validação dos campos
   var validation = [];
 
-  return validation;
+  done(validation);
 };
 
 module.exports.controller = function(req, context, callback) {

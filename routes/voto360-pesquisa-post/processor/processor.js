@@ -3,9 +3,9 @@ module.exports.executa = function (req, context, done) {
     new: true
   };
   let data = req.body || {};
-  const model = new context.pesquisaModel(data);
+  const model = new context.pesquisaModel(JSON.parse(data));
 
-  model.save(function (err, pesquisa) {
+  model.save((err, pesquisa) => {
     if (err) {
       done(err);
     } else {
