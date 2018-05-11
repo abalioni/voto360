@@ -11,9 +11,9 @@ module.exports.executa = function (req, context, done) {
 
   model.update(condition, data, (err, data) => {
     if (err) {
-      console.log(err);
+      done(err);
     } else {
-      console.log(data);
+      done(null, data);
     }
   });
 }
